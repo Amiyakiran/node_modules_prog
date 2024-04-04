@@ -1,0 +1,207 @@
+                  node
+            --------------------
+
+-  not a programming Language
+-  it provides a run time Environment fOR javaScript to run outside the Browser 
+-  with Some javaScript Libraries.       
+
+Features
+--------
+ - extremely fast -  mutiple request can be resolved - v8
+ - based on Asyncgronous Programming'
+ - singled threaded
+ - Highly Scalable - 
+ - open source-
+
+ node
+ ------
+  extension - filename.js
+
+  what are node Modules
+  ---------------------
+  -modules are files/javaScript Libraries in node.js.
+  - if we want to include this module in our file we need to import that module.
+    import  - require('path')
+    export - module.exports
+
+ - type of modules
+ -------------------
+   1) custome Modules
+   2) BuildIn Modules.
+
+  Type of BuildIn Modules
+  -----------------------
+  1) file System Module:
+     -------------------
+      - allow us to worl with the files inside your program/file/computer
+      - import
+       syntax
+       ---------
+        keyword variable = require('fs')
+
+        common uses
+
+         1) Read files  - fs.readFile()
+         2) to create files - fs.open()
+         3) Update file  - fs.writeFile()   
+         4) Delete file - fs.unlink()
+         5) Rename file - fs.rename()
+         
+    2) http module
+       ---------------
+       -  Allows Node.js to transfer data over http request.
+       - http module can create an http server that listens to server ports and gives a response back to the client.
+        - method - createServer() - to create server.
+                 - listen() - to listen to the server port   
+    3) https module - more secured protocol will be allowed and accept https request    
+    4) Event Modules - To Generate Events
+         - class EventEmitter () 
+             -object - new classname
+             - to create an event  - object.on()
+             - execute - emit()  
+    5) crypto - tool to encryption, hashing
+
+
+    Backend concept
+    --------------
+    - client -server Architecture - sending request and response between application
+    - api - application programming interface
+    - RESTful api - http request - json formate.
+    - CRUD - create read update delete. operate - 
+    - CORS - Cross origin resourse sharing.
+
+    steps to create server
+    ----------------------
+    1) create a folder for the server.
+    2) install package.json - install command npm init -y - npm configuration.
+    3) update package.json - script
+    4) install 
+          - Express.js - its a framework of node.js - install command - npm i express
+          - cors - Cross origin resourse sharing - install command   - npm i cors
+          - dotenv - it is a zero dependency  module that loads environment variables from .env file to process.env
+             environment variable - provides informations about the environment in which the process is running.
+             - install command npm i dotenv.
+          -  npm i express cors dotenv
+     5) create .env file to hold environment variable 
+     6) create .gitignore file.
+     7) create index.js file- for server     
+     8) create router.js file inside Router Folder.
+
+
+     MVC Architecture
+     -----------------
+     1) VIEW - send the Request 
+     2) ROUTING - set path to resolve the  request    
+     3) CONTROLLER - set the logic to resolve the request   
+     4) MODEL - structure to store data.
+     5) DATABASE - used to store data.
+
+     Mongodb
+     -------
+     - used to store data
+
+     commands
+     --------
+     - open _MONGOSH (mongodb shell)
+     
+     1) show databases - list out all databases inside your mongodb.
+     2) use db_name - to change directory/database.
+     3) show collections - to get all collections inside a database.
+     4) db.collectionName.find() - to get all documents inside particular collection
+     5) db.users.findOne({condition}) - to get a particular document satisfing the condition 
+     6) db.users.find().limit(number) - get a particular number of documents.
+     7) db.users.find().sort({username:-1}) - sort in descending order
+     8) db.users.find().sort({username:1}) - sort in ascending order
+
+     9) db.users.insertOne({username:"neel",email:"neel@gmail.com",password:"neel123",profile:"",github:"",linkedin:""}) - to add new document in a collection.
+
+     10) db.users.insertMany([{username:"sicily",email:"sicily@gmail.com",password:'sicily123',profile:"",github:"",linkedin:""},{username:"Mini",email:"mini@gmail.com",password:"mini123",profile:"",github:"",linkedin:""}])
+     
+     11) db.users.insertMany([{uname:'jacob',age:18,debt:2000,balance:2600},{uname:'kavi',age:25,debt:12000,balance:50000}])
+
+     12) db.users.insertOne({uname:'kyle',age:30 ,address:{city:'washington DC',zipcode:7896},hobbies:["gamming",'coding',"Driving"]})
+ 
+     13) query based -
+            - db.users.find({age:{$lt:25}}) - less than
+            - db.users.find({age:{$lte:25}}) - less than or equal to
+            - db.users.find({age:{$gt:25}}) - greater than
+            - db.users.find({age:{$gte:25}}) - greater than or equal to
+            - db.users.find({$or:[{age:{$gt:25}},{age:{$gt:30}}]}) - anyone condition to be true
+            - db.users.find({$and:[{age:{$gt:17}},{age:{$lt:30}}]}) - both condition should  be true
+            - db.users.find({address:{$exists:true}}) - return the document which have the key
+            - db.users.find({address:{$exists:false}}) - return the document which doesnot have the key
+
+            - to compare two keys within the document - $expr
+
+               - db.users.find({$expr:{$gt:["$balance","$debt"]}}) - balance>debt
+               - db.users.find({$expr:{$gt:["$debt","$balance"]}}) - debt>balance
+
+      14) update
+
+          - syntax = db.collectionName.updateOne({condition to unqiuly identify the document},{condition to update the document})
+
+          - db.users.updateOne({uname:"jacob"},{$inc:{age:2}}) - increment
+          - db.users.updateOne({uname:"jacob"},{$inc:{age:-2}}) - decrement
+          - db.users.updateOne({uname:'kyle'},{$push:{hobbies:"cycling"}}) -add a new hobby to user kyle.
+
+      15)delete
+          - db.users.deleteOne({uname:"jacob"})  - delete one document
+          - db.users.deleteMany({uname:{$exists:true}}) - delete more than one document  
+
+      16) Aggregation operations process multiple documents and return computed results.
+          -Group values from multiple documents together.
+           syntax
+              {
+                  $lookup:
+                  {
+                     from: <collection to join>,
+                     localField: <field from the input documents>,
+                     foreignField: <field from the documents of the "from" collection>,
+                     as: <output array field>
+                  }
+               }
+
+         - db.users.aggregate({$lookup:{from:'projects',localField:'_id',foreignField:'userId',as:'userProject'}})
+
+   Mongodb atlas - cloud based
+   ---------------
+   1) create project.
+   2) give project name.
+   3) no change to ownership then click create project.
+   4) click database in the sidebar.
+   5) click build a dataBase the choose free option. then click create.
+   6) change a password - make it as simple as possible without special characters
+   7) click create user
+   8) click finish and click go to overview.            
+   9) again click database in the sidebar.
+   10) click browse collections
+   11) click my own data.
+   12) give database name and collection name then click create button
+   13) click network access in the sidebar then click edit button
+   14) click allow access from anywhere button - so that anyone can access the database.
+
+   15) click the connect and then the driver
+   16) copy the connection string and paste it in the .env file
+   17) update the string by giving the password of the corresponding database and the name of the database after the slash and before the question mark.
+
+   mongoose
+   --------
+   - it is a node.js library used to connect the server with the database.
+   - installation command - npm i mongoose
+   - access the connectionstring from process.env file
+   - connect server with the mongodb using connect function of mongoose.
+   - import connection.js file in index.js inorder to execute it.
+
+   modal
+   -----
+   - use to create a structure to the collection in database.
+   - create a file to import mongoose.
+   - modal  is created using modal function in mongoose 
+   - create schema using the schema class in the mongoose library
+   - export modal.
+   - validation can be given to scheme using validator module 
+         - install - npm i validator
+
+
+
+     
